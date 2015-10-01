@@ -1,9 +1,12 @@
 [package]
 name = "limonite"
-version = "0.1.0"
+version = "0.0.0"
 authors = ["Douglas Campos <qmx@qmx.me>"]
+description = "small blog generator"
+license = "Apache-2.0"
+homepage = "https://github.com/qmx/limonite"
 
 [dependencies]
-liquid = "*"
-pulldown-cmark = "*"
-yaml-rust = "*"
+liquid = "0.1.1"
+pulldown-cmark = "0.0.3"
+yaml-rust = "0.2.2"
