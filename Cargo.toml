@@ -1,0 +1,9 @@
+[package]
+name = "limonite"
+version = "0.1.0"
+authors = ["Douglas Campos <qmx@qmx.me>"]
+
+[dependencies]
+liquid = "*"
+pulldown-cmark = "*"
+yaml-rust = "*"
