@@ -7,9 +7,8 @@ fn main() {
 }
 
 fn generate(src: &Path, dest: &Path) -> Result<(), io::Error> {
-    let config = src.join("limonite.yml");
-    println!("{}", config.display());
-    let metadata = try!(fs::metadata(&config));
+    let config_path = src.join("limonite.yml");
+    let metadata = try!(fs::metadata(&config_path));
     Ok(())
 }
 
