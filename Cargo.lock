@@ -2,7 +2,7 @@
 name = "limonite"
 version = "0.0.0"
 dependencies = [
- "liquid 0.1.1 (registry+https://github.com/rust-lang/crates.io-index)",
+ "liquid 0.1.2 (registry+https://github.com/rust-lang/crates.io-index)",
  "pulldown-cmark 0.0.3 (registry+https://github.com/rust-lang/crates.io-index)",
  "yaml-rust 0.2.2 (registry+https://github.com/rust-lang/crates.io-index)",
 ]
@@ -27,7 +27,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 
 [[package]]
 name = "liquid"
-version = "0.1.1"
+version = "0.1.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 dependencies = [
  "regex 0.1.41 (registry+https://github.com/rust-lang/crates.io-index)",

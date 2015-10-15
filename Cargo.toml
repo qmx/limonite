@@ -7,6 +7,6 @@ license = "Apache-2.0"
 homepage = "https://github.com/qmx/limonite"
 
 [dependencies]
-liquid = "0.1.1"
+liquid = "0.1.2"
 pulldown-cmark = "0.0.3"
 yaml-rust = "0.2.2"
