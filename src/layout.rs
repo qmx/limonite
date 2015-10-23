@@ -7,6 +7,7 @@ use liquid::{self, Renderable, LiquidOptions, Context};
 
 #[derive(Debug)]
 struct Layout {
+    name: String,
     template: String
 }
 
@@ -16,10 +17,11 @@ impl Layout {
         let mut content = String::new();
         let mut f = File::open(src).unwrap();
         f.read_to_string(&mut content);
-        Layout { template: content }
+        let fname = src.file_stem().unwrap().to_str().unwrap().to_owned();
+        Layout { name: fname, template: content }
     }
 
-    fn render(self, data: HashMap<String, String>) -> String {
+    fn render(&self, data: HashMap<String, String>) -> String {
         let mut options: LiquidOptions = Default::default();
         let mut wrapped_data = Context::new();
         for (key, val) in data.iter() {
@@ -28,12 +30,16 @@ impl Layout {
         let tmpl = liquid::parse(&self.template, &mut options).unwrap();
         tmpl.render(&mut wrapped_data).unwrap()
     }
+
+    fn name(&self) -> String {
+        self.name.clone()
+    }
 }
 
 
 #[test]
 fn renders_the_freaking_layout() {
-    let layout = Layout { template: "my {{content}}".to_owned() };
+    let layout = Layout { name:"".to_owned(), template: "my {{content}}".to_owned() };
     let mut data = HashMap::new();
     data.insert("content".to_owned(), "hello world".to_owned());
     assert_eq!(layout.render(data), "my hello world".to_owned());
@@ -45,4 +51,5 @@ fn new_layout_from_file() {
     let mut data = HashMap::new();
     data.insert("content".to_owned(), "liquid".to_owned());
     assert_eq!(layout.render(data), "Hello liquid\n".to_owned());
+    assert_eq!(layout.name(), "main");
 }
