@@ -1,4 +1,7 @@
 use std::default::Default;
+use std::path::Path;
+use std::fs::File;
+use std::io::prelude::*;
 use std::collections::HashMap;
 use liquid::{self, Renderable, LiquidOptions, Context};
 
@@ -8,6 +11,14 @@ struct Layout {
 }
 
 impl Layout {
+
+    fn new(src: &Path) -> Layout {
+        let mut content = String::new();
+        let mut f = File::open(src).unwrap();
+        f.read_to_string(&mut content);
+        Layout { template: content }
+    }
+
     fn render(self, data: HashMap<String, String>) -> String {
         let mut options: LiquidOptions = Default::default();
         let mut wrapped_data = Context::new();
@@ -26,4 +37,12 @@ fn renders_the_freaking_layout() {
     let mut data = HashMap::new();
     data.insert("content".to_owned(), "hello world".to_owned());
     assert_eq!(layout.render(data), "my hello world".to_owned());
+}
+
+#[test]
+fn new_layout_from_file() {
+    let layout = Layout::new(Path::new("fixtures/001/_layouts/main.html"));
+    let mut data = HashMap::new();
+    data.insert("content".to_owned(), "liquid".to_owned());
+    assert_eq!(layout.render(data), "Hello liquid\n".to_owned());
 }
