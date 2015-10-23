@@ -6,14 +6,14 @@ use std::collections::HashMap;
 use liquid::{self, Renderable, LiquidOptions, Context};
 
 #[derive(Debug)]
-struct Layout {
+pub struct Layout {
     name: String,
     template: String
 }
 
 impl Layout {
 
-    fn new(src: &Path) -> Layout {
+    pub fn new(src: &Path) -> Layout {
         let mut content = String::new();
         let mut f = File::open(src).unwrap();
         f.read_to_string(&mut content);
@@ -21,7 +21,7 @@ impl Layout {
         Layout { name: fname, template: content }
     }
 
-    fn render(&self, data: HashMap<String, String>) -> String {
+    pub fn render(&self, data: HashMap<String, String>) -> String {
         let mut options: LiquidOptions = Default::default();
         let mut wrapped_data = Context::new();
         for (key, val) in data.iter() {
@@ -31,7 +31,7 @@ impl Layout {
         tmpl.render(&mut wrapped_data).unwrap()
     }
 
-    fn name(&self) -> String {
+    pub fn name(&self) -> String {
         self.name.clone()
     }
 }
