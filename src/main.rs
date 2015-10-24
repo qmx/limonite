@@ -5,7 +5,7 @@ extern crate yaml_rust;
 
 mod document;
 mod layout;
+mod site;
 
 fn main() {
 }
-
