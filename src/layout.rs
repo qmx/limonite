@@ -4,6 +4,7 @@ use std::fs::File;
 use std::io::prelude::*;
 use std::collections::HashMap;
 use liquid::{self, Renderable, LiquidOptions, Context};
+use yaml_rust::{Yaml, YamlLoader};
 
 #[derive(Debug)]
 pub struct Layout {
@@ -21,8 +22,20 @@ impl Layout {
         if parts.len() != 3 {
             panic!("front matter is required for layout files");
         }
-        let (front_matter, template) = (parts[1], parts[2]);
+        let (front_matter, template) = (parts[1].trim(), parts[2]);
         let fname = src.file_stem().unwrap().to_str().unwrap().to_owned();
+        if !front_matter.is_empty() {
+            let doc = match YamlLoader::load_from_str(&front_matter) {
+                Ok(yaml_vec) => {
+                    if yaml_vec.len() > 0 {
+                        yaml_vec[0].clone()
+                    } else {
+                        panic!("boo");
+                    }
+                },
+                Err(why) => panic!("buh")
+            };
+        }
         Layout { name: fname, template: template.to_owned() }
     }
 
