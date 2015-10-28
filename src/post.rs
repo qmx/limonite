@@ -11,22 +11,27 @@ pub struct Post {
     seq: u8
 }
 
+fn extract_data_from_filename(filename: &str) -> (&str, &str, u8) {
+    let re = Regex::new(r"^(\d{4}-\d{2}-\d{2})-(\d{3})-(.+)$").unwrap();
+    let cap = re.captures(filename).unwrap();
+    let date_str = cap.at(1).unwrap();
+    let seq = cap.at(2).unwrap().parse::<u8>().unwrap();
+    let slug = cap.at(3).unwrap();
+    (date_str, slug, seq)
+}
+
 impl Post {
 
     pub fn new(src: &Path) -> Post {
         let filename = src.file_stem().unwrap().to_str().unwrap();
-        let re = Regex::new(r"^(\d{4}-\d{2}-\d{2})-(\d{3})-(.+)$").unwrap();
-        let cap = re.captures(filename).unwrap();
-        let date_str = cap.at(1).unwrap();
-        let seq = cap.at(2).unwrap();
-        let slug = cap.at(3).unwrap();
+        let (date_str, slug, seq) = extract_data_from_filename(filename);
         Post {
             title: "".to_owned(),
             slug: slug.to_owned(),
             content: "".to_owned(),
             layout: Some("".to_owned()),
             date: date_str.to_owned(),
-            seq: seq.parse::<u8>().unwrap()
+            seq: seq
         }
     }
 
