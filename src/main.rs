@@ -7,6 +7,7 @@ extern crate regex;
 mod document;
 mod layout;
 mod site;
+mod post;
 
 fn main() {
 }
