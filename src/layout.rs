@@ -1,10 +1,7 @@
 use std::default::Default;
 use std::path::Path;
-use std::fs::File;
-use std::io::prelude::*;
 use std::collections::HashMap;
 use liquid::{self, Renderable, LiquidOptions, Context};
-use yaml_rust::{Yaml, YamlLoader};
 use util;
 
 #[derive(Debug)]

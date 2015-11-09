@@ -2,12 +2,12 @@ use std::collections::HashMap;
 use std::fs::File;
 use std::io::prelude::*;
 use std::path::Path;
-use yaml_rust::{Yaml, YamlLoader};
+use yaml_rust::YamlLoader;
 
 pub fn parse_front_matter_and_content(src: &Path) -> (HashMap<&str, String>, String) {
     let mut content = String::new();
     let mut f = File::open(src).unwrap();
-    f.read_to_string(&mut content);
+    let _ = f.read_to_string(&mut content);
     let parts = content.split("---\n").collect::<Vec<_>>();
     if parts.len() != 3 {
         panic!("front matter is required for layout files");

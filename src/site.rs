@@ -16,7 +16,7 @@ impl Site {
         let config_path = src_path.join("limonite.yml");
         let mut config_content = String::new();
         let mut f = File::open(config_path).unwrap();
-        f.read_to_string(&mut config_content);
+        let _ = f.read_to_string(&mut config_content);
         let docs = YamlLoader::load_from_str(&config_content).unwrap();
         let doc = &docs[0];
         let base_url = doc["base_url"].as_str().unwrap().to_owned();
@@ -41,7 +41,6 @@ impl Site {
 
 #[cfg(test)]
 mod tests {
-    use super::*;
     use std::env;
     use std::fs;
     use std::path::{Path, PathBuf};
@@ -51,13 +50,12 @@ mod tests {
         let mut outdir = env::temp_dir();
         outdir.push("limonite");
         outdir.push(Uuid::new_v4().to_hyphenated_string());
-        fs::create_dir_all(&outdir);
+        let _ = fs::create_dir_all(&outdir);
         outdir
     }
 
     #[test]
     fn builds_site_object() {
-        let output_path = get_temp_output_path();
-        let site = super::Site::new(Path::new("fixtures/001"));
+        let _ = super::Site::new(Path::new("fixtures/001"));
     }
 }
