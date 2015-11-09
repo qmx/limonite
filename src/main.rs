@@ -8,6 +8,7 @@ mod document;
 mod layout;
 mod site;
 mod post;
+mod util;
 
 fn main() {
 }

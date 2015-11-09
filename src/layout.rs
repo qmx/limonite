@@ -5,6 +5,7 @@ use std::io::prelude::*;
 use std::collections::HashMap;
 use liquid::{self, Renderable, LiquidOptions, Context};
 use yaml_rust::{Yaml, YamlLoader};
+use util;
 
 #[derive(Debug)]
 pub struct Layout {
@@ -13,33 +14,17 @@ pub struct Layout {
     layout: Option<String>
 }
 
+
 impl Layout {
 
     pub fn new(src: &Path) -> Layout {
-        let mut content = String::new();
-        let mut f = File::open(src).unwrap();
-        f.read_to_string(&mut content);
-        let parts = content.split("---\n").collect::<Vec<_>>();
-        if parts.len() != 3 {
-            panic!("front matter is required for layout files");
-        }
-        let (front_matter, template) = (parts[1].trim(), parts[2]);
         let fname = src.file_stem().unwrap().to_str().unwrap().to_owned();
-        let layout = if !front_matter.is_empty() {
-            match YamlLoader::load_from_str(&front_matter) {
-                Ok(yaml_vec) => {
-                    if yaml_vec.len() > 0 {
-                        Some(yaml_vec[0]["layout"].as_str().unwrap().to_owned())
-                    } else {
-                        None
-                    }
-                },
-                Err(why) => None
-            }
-        } else {
-            None
+        let (front_matter, template) = util::parse_front_matter_and_content(src);
+        let layout = match front_matter.get("layout") {
+            Some(l) => Some(l.clone()),
+            None => None
         };
-        Layout { name: fname, template: template.to_owned(), layout:layout }
+        Layout { name: fname, template: template.clone(), layout:layout }
     }
 
     pub fn render(&self, data: HashMap<String, String>) -> String {

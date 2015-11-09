@@ -1,12 +1,13 @@
 use std::path::Path;
 use regex::Regex;
+use util;
 
 #[derive(Debug)]
 pub struct Post {
     title: String,
     slug: String,
     content: String,
-    layout: Option<String>,
+    layout: String,
     date: String,
     seq: u8
 }
@@ -25,11 +26,16 @@ impl Post {
     pub fn new(src: &Path) -> Post {
         let filename = src.file_stem().unwrap().to_str().unwrap();
         let (date_str, slug, seq) = extract_data_from_filename(filename);
+        let (front_matter, template) = util::parse_front_matter_and_content(src);
+        let layout = match front_matter.get("layout") {
+            Some(l) => l.clone(),
+            None => "post".to_owned()
+        };
         Post {
             title: "".to_owned(),
             slug: slug.to_owned(),
             content: "".to_owned(),
-            layout: Some("".to_owned()),
+            layout: layout,
             date: date_str.to_owned(),
             seq: seq
         }
@@ -46,4 +52,5 @@ fn constructs_post_from_filename() {
     assert_eq!(post.slug(), "merry-xmas");
     assert_eq!(post.date, "2015-10-26".to_owned());
     assert_eq!(post.seq, 1);
+    assert_eq!(post.layout, "post");
 }
