@@ -4,7 +4,6 @@ extern crate uuid;
 extern crate yaml_rust;
 extern crate regex;
 
-mod document;
 mod layout;
 mod layout_store;
 mod site;
