@@ -3,6 +3,7 @@ use std::collections::HashMap;
 use std::fs;
 use layout::Layout;
 
+#[derive(Debug)]
 pub struct LayoutStore {
     layouts: HashMap<String, Layout>
 }
