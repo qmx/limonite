@@ -32,7 +32,7 @@ pub fn parse_front_matter_and_content(src: &Path) -> (HashMap<&str, String>, Str
         Some(yaml) => {
             match yaml["layout"].as_str() {
                 Some(layout) => {
-                    front_matter.insert("layout", "main".to_owned());
+                    front_matter.insert("layout", layout.to_owned());
                 },
                 None => ()
             }

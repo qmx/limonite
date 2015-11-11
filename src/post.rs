@@ -54,3 +54,9 @@ fn constructs_post_from_filename() {
     assert_eq!(post.seq, 1);
     assert_eq!(post.layout, None);
 }
+
+#[test]
+fn reads_layout_from_front_matter() {
+    let post = Post::new(Path::new("fixtures/005/_posts/2015-10-26-001-merry-xmas.markdown"));
+    assert_eq!(post.layout, Some("post".to_owned()));
+}
