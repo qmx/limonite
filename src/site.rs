@@ -74,7 +74,7 @@ mod tests {
 
     #[test]
     #[should_panic]
-    fn builds_site_object() {
+    fn refuses_to_run_with_existing_output_dir() {
         let site = super::Site::new(Path::new("fixtures/006"));
         let outdir = get_temp_output_path();
         site.generate(&outdir);
