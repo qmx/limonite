@@ -42,5 +42,5 @@ impl<'a> LayoutStore {
 fn renders_recursive_layout() {
     let layout_store = LayoutStore::new(Path::new("fixtures/004/_layouts"));
     let post_content = layout_store.render("post", "Post Body".to_owned(), HashMap::new());
-    assert_eq!(post_content, "Main\n\nPost Body\n".to_owned());
+    assert_eq!(post_content, "Main\n\nPost\nPost Body\n".to_owned());
 }
