@@ -35,8 +35,12 @@ impl Post {
             Some(l) => Some(l.clone()),
             None => None
         };
+        let title: String = match front_matter.get("title") {
+            Some(t) => t.to_owned(),
+            None => slug.to_owned()
+        };
         Post {
-            title: "".to_owned(),
+            title: title,
             slug: slug.to_owned(),
             content: content.to_owned(),
             layout: layout,
@@ -59,6 +63,10 @@ impl Post {
     pub fn layout(&self) -> Option<String> {
         self.layout.clone()
     }
+
+    pub fn title(&self) -> String {
+        self.title.clone()
+    }
 }
 
 #[test]
@@ -74,6 +82,18 @@ fn constructs_post_from_filename() {
 fn reads_layout_from_front_matter() {
     let post = Post::new(Path::new("fixtures/005/_posts/2015-10-26-001-merry-xmas.markdown"));
     assert_eq!(post.layout, Some("post".to_owned()));
+}
+
+#[test]
+fn reads_title_from_front_matter() {
+    let post = Post::new(Path::new("fixtures/005/_posts/2015-10-26-001-merry-xmas.markdown"));
+    assert_eq!(post.title(), "wild merry xmas!".to_owned());
+}
+
+#[test]
+fn title_is_taken_from_slug_if_missing() {
+    let post = Post::new(Path::new("fixtures/005/_posts/2015-10-26-002-meh.markdown"));
+    assert_eq!(post.title(), "meh".to_owned());
 }
 
 #[test]

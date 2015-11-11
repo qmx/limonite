@@ -36,6 +36,12 @@ pub fn parse_front_matter_and_content(src: &Path) -> (HashMap<&str, String>, Str
                 },
                 None => ()
             }
+            match yaml["title"].as_str() {
+                Some(title) => {
+                    front_matter.insert("title", title.to_owned());
+                },
+                None => ()
+            }
         },
         None => ()
     }
