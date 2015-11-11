@@ -24,12 +24,13 @@ impl Layout {
         Layout { name: fname, template: template.clone(), layout:layout }
     }
 
-    pub fn render(&self, data: HashMap<String, String>) -> String {
+    pub fn render(&self, content: String, data: HashMap<String, String>) -> String {
         let mut options: LiquidOptions = Default::default();
         let mut wrapped_data = Context::new();
         for (key, val) in data.iter() {
             wrapped_data.set_val(key, liquid::Value::Str(val.clone()));
         }
+        wrapped_data.set_val("content", liquid::Value::Str(content.clone()));
         let tmpl = liquid::parse(&self.template, &mut options).unwrap();
         tmpl.render(&mut wrapped_data).unwrap()
     }
@@ -48,16 +49,14 @@ impl Layout {
 fn renders_the_freaking_layout() {
     let layout = Layout { name:"".to_owned(), template: "my {{content}}".to_owned(), layout: None };
     let mut data = HashMap::new();
-    data.insert("content".to_owned(), "hello world".to_owned());
-    assert_eq!(layout.render(data), "my hello world".to_owned());
+    assert_eq!(layout.render("hello world".to_owned(), data), "my hello world".to_owned());
 }
 
 #[test]
 fn new_layout_from_file() {
     let layout = Layout::new(Path::new("fixtures/001/_layouts/main.html"));
     let mut data = HashMap::new();
-    data.insert("content".to_owned(), "liquid".to_owned());
-    assert_eq!(layout.render(data), "Hello liquid\n".to_owned());
+    assert_eq!(layout.render("liquid".to_owned(), data), "Hello liquid\n".to_owned());
     assert_eq!(layout.name(), "main");
 }
 
