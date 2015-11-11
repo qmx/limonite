@@ -55,6 +55,10 @@ impl Post {
     pub fn slug(&self) -> String {
         self.slug.clone()
     }
+
+    pub fn layout(&self) -> Option<String> {
+        self.layout.clone()
+    }
 }
 
 #[test]
