@@ -6,6 +6,7 @@ extern crate regex;
 
 mod document;
 mod layout;
+mod layout_store;
 mod site;
 mod post;
 mod util;
