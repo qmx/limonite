@@ -4,15 +4,18 @@ use std::io::prelude::*;
 use yaml_rust::YamlLoader;
 use std::collections::HashMap;
 use layout::Layout;
+use layout_store::LayoutStore;
+use post::Post;
 
 #[derive(Debug)]
-struct Site {
+pub struct Site {
     base_url: String,
-    layouts: HashMap<String, Layout>
+    layout_store: LayoutStore,
+    posts: Vec<Post>
 }
 
 impl Site {
-    fn new(src_path: &Path) -> Site {
+   pub fn new(src_path: &Path) -> Site {
         let config_path = src_path.join("limonite.yml");
         let mut config_content = String::new();
         let mut f = File::open(config_path).unwrap();
@@ -21,20 +24,35 @@ impl Site {
         let doc = &docs[0];
         let base_url = doc["base_url"].as_str().unwrap().to_owned();
 
-        let mut layouts = HashMap::new();
         let layouts_dir_path = src_path.join("_layouts");
-        for entry in fs::read_dir(&layouts_dir_path).unwrap() {
-            let layout_path = entry.unwrap().path();
-            let fname = layout_path.file_name().unwrap().to_str().unwrap();
-            if !fname.starts_with(".") && fname.ends_with("html") {
-                let layout = Layout::new(&layout_path);
-                layouts.insert(layout.name(), layout);
+        let layout_store = LayoutStore::new(&layouts_dir_path);
+
+        let posts_dir = src_path.join("_posts");
+        let mut posts = Vec::new();
+        for entry in fs::read_dir(&posts_dir).unwrap() {
+            let post_path = entry.unwrap().path();
+            let fname = post_path.file_name().unwrap().to_str().unwrap();
+            if !fname.starts_with(".") && fname.ends_with("markdown") {
+                posts.push(Post::new(&post_path));
             }
         }
 
         Site {
             base_url: base_url,
-            layouts: layouts
+            layout_store: layout_store,
+            posts: posts
+        }
+    }
+
+    pub fn generate(&self, output_path: &Path) {
+        match fs::metadata(&output_path) {
+            Ok(_) => {
+                panic!("{} exists", output_path.display())
+            },
+            Err(why) => {}
+        }
+        for post in self.posts.iter() {
+            let output = self.layout_store.render(&post.layout().unwrap(), post.render(HashMap::new()), HashMap::new());
         }
     }
 }
@@ -55,7 +73,10 @@ mod tests {
     }
 
     #[test]
+    #[should_panic]
     fn builds_site_object() {
-        let _ = super::Site::new(Path::new("fixtures/001"));
+        let site = super::Site::new(Path::new("fixtures/006"));
+        let outdir = get_temp_output_path();
+        site.generate(&outdir);
     }
 }
