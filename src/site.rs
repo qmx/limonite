@@ -45,12 +45,6 @@ impl Site {
     }
 
     pub fn generate(&self, output_path: &Path) {
-        match fs::metadata(&output_path) {
-            Ok(_) => {
-                panic!("{} exists", output_path.display())
-            },
-            Err(why) => {}
-        }
         for post in self.posts.iter() {
             let output = self.layout_store.render(&post.layout().unwrap(), post.render(HashMap::new()), HashMap::new());
         }
@@ -73,7 +67,6 @@ mod tests {
     }
 
     #[test]
-    #[should_panic]
     fn refuses_to_run_with_existing_output_dir() {
         let site = super::Site::new(Path::new("fixtures/006"));
         let outdir = get_temp_output_path();
