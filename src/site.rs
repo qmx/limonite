@@ -46,7 +46,11 @@ impl Site {
 
     pub fn generate(&self, output_path: &Path) {
         for post in self.posts.iter() {
+            let dir = output_path.join(post.slug());
+            fs::create_dir_all(&dir);
+            let mut f = File::create(&dir.join("index.html")).unwrap();
             let output = self.layout_store.render(&post.layout().unwrap(), post.render(HashMap::new()), HashMap::new());
+            f.write_all(output.as_bytes());
         }
     }
 }
