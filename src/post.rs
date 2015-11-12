@@ -67,10 +67,6 @@ impl Post {
     pub fn title(&self) -> String {
         self.title.clone()
     }
-
-    pub fn output_path(&self) -> String {
-        format!("{}/index.html", self.slug())
-    }
 }
 
 #[test]
@@ -98,12 +94,6 @@ fn reads_title_from_front_matter() {
 fn title_is_taken_from_slug_if_missing() {
     let post = Post::new(Path::new("fixtures/005/_posts/2015-10-26-002-meh.markdown"));
     assert_eq!(post.title(), "meh".to_owned());
-}
-
-#[test]
-fn computes_output_path_from_slug() {
-    let post = Post::new(Path::new("fixtures/005/_posts/2015-10-26-002-meh.markdown"));
-    assert_eq!(post.output_path(), "meh/index.html".to_owned());
 }
 
 #[test]
