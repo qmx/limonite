@@ -1,7 +1,6 @@
 use std::default::Default;
 use std::path::Path;
 use std::collections::HashMap;
-use std::fs;
 use liquid::{self, Renderable, LiquidOptions, Context};
 use util;
 

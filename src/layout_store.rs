@@ -25,10 +25,9 @@ impl<'a> LayoutStore {
     }
 
     pub fn render(&self, layout_name: &'a str, content: String, context: HashMap<String, String>) -> String {
-        let mut buffer = String::new();
         let layout = self.layouts.get(layout_name).unwrap();
         let data = HashMap::new();
-        buffer = layout.render(content, data);
+        let mut buffer = layout.render(content, data);
         match layout.layout() {
             Some(l) => {
                 buffer = self.render(&l, buffer, HashMap::new());

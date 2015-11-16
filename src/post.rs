@@ -3,7 +3,6 @@ use std::collections::HashMap;
 use layout_store::LayoutStore;
 use pulldown_cmark::{html, Parser};
 use regex::Regex;
-use std::io;
 use util;
 
 #[derive(Debug)]
