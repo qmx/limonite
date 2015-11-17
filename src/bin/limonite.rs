@@ -1,16 +1,6 @@
-extern crate pulldown_cmark;
-extern crate liquid;
-extern crate uuid;
-extern crate yaml_rust;
-extern crate regex;
+extern crate limonite;
 
-mod layout;
-mod layout_store;
-mod site;
-mod post;
-mod util;
-
-use site::Site;
+use limonite::site::Site;
 use std::env;
 use std::path::Path;
 
