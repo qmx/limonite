@@ -3,6 +3,8 @@ use std::fs::File;
 use std::io::prelude::*;
 use std::path::Path;
 use yaml_rust::YamlLoader;
+use crypto::sha1::Sha1;
+use crypto::digest::Digest;
 
 pub fn parse_front_matter_and_content(src: &Path) -> (HashMap<&str, String>, String) {
     let mut content = String::new();
@@ -48,9 +50,45 @@ pub fn parse_front_matter_and_content(src: &Path) -> (HashMap<&str, String>, Str
     (front_matter, template.to_owned())
 }
 
+pub fn diff(f1_path: &str, f2_path: &str) -> bool {
+    let mut f1 = match File::open(Path::new(f1_path)) {
+        Ok(f) => f,
+        Err(why) => {
+            return false;
+        }
+    };
+    let mut f2 = match File::open(Path::new(f2_path)) {
+        Ok(f) => f,
+        Err(why) => {
+            return false;
+        }
+    };
+    let mut b1 = Vec::new();
+    f1.read_to_end(&mut b1);
+    let mut h1 = Sha1::new();
+    h1.input(&b1);
+    let r1 = h1.result_str();
+
+    let mut b2 = Vec::new();
+    f2.read_to_end(&mut b1);
+    let mut h2 = Sha1::new();
+    h2.input(&b2);
+    let r2 = h1.result_str();
+    return r1 != r2;
+}
+
+
 #[test]
 fn parses_the_file() {
     let (front_matter, content) = parse_front_matter_and_content(Path::new("fixtures/002/_layouts/post.html"));
     assert_eq!(front_matter.get("layout").unwrap(), "main");
     assert_eq!(content, "Hello {{ content }}\n");
+}
+
+#[test]
+#[should_panic]
+fn compares_file_contents() {
+    assert!(diff("fixtures/008/a", "fixtures/008/b"));
+    assert!(!diff("fixtures/008/a", "fixtures/008/a"));
+    assert!(!diff("fixtures/008/b", "fixtures/008/b"));
 }
