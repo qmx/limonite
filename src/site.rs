@@ -3,7 +3,6 @@ use std::fs::{self, File};
 use std::io::prelude::*;
 use yaml_rust::YamlLoader;
 use std::collections::HashMap;
-use layout::Layout;
 use layout_store::LayoutStore;
 use post::Post;
 
@@ -58,21 +57,19 @@ impl Site {
 #[cfg(test)]
 mod tests {
     use std::env;
-    use std::fs;
     use std::path::{Path, PathBuf};
     use uuid::Uuid;
 
     fn get_temp_output_path() -> PathBuf {
         let mut outdir = env::temp_dir();
         outdir.push("limonite");
-        outdir.push(Uuid::new_v4().to_hyphenated_string());
-        let _ = fs::create_dir_all(&outdir);
+        outdir.push(Uuid::new_v4().to_simple_string());
         outdir
     }
 
     #[test]
-    fn refuses_to_run_with_existing_output_dir() {
-        let site = super::Site::new(Path::new("fixtures/006"));
+    fn copies_files_without_front_matter() {
+        let site = super::Site::new(Path::new("fixtures/007"));
         let outdir = get_temp_output_path();
         site.generate(&outdir);
     }
