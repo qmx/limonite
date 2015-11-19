@@ -51,13 +51,17 @@ pub fn parse_front_matter_and_content(src: &Path) -> (HashMap<&str, String>, Str
 }
 
 pub fn diff(f1_path: &str, f2_path: &str) -> bool {
-    let mut f1 = match File::open(Path::new(f1_path)) {
+    diff_path(Path::new(f1_path), Path::new(f2_path))
+}
+
+pub fn diff_path(p1: &Path, p2: &Path) -> bool {
+    let mut f1 = match File::open(&p1) {
         Ok(f) => f,
         Err(why) => {
             return false;
         }
     };
-    let mut f2 = match File::open(Path::new(f2_path)) {
+    let mut f2 = match File::open(&p2) {
         Ok(f) => f,
         Err(why) => {
             return false;
