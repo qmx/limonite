@@ -1,7 +1,6 @@
 use std::path::Path;
 use std::collections::HashMap;
 use layout_store::LayoutStore;
-use pulldown_cmark::{html, Parser};
 use regex::Regex;
 use util;
 
@@ -46,10 +45,7 @@ impl Post {
     }
 
     pub fn render(&self, data: HashMap<String, String>) -> String {
-        let mut output = String::new();
-        let p = Parser::new(&self.content);
-        html::push_html(&mut output, p);
-        output
+        util::render_markdown(&self.content)
     }
 
     pub fn slug(&self) -> String {

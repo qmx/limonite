@@ -6,6 +6,7 @@ use yaml_rust::YamlLoader;
 use crypto::sha1::Sha1;
 use crypto::digest::Digest;
 use liquid::{self, Renderable, LiquidOptions, Context};
+use pulldown_cmark::{html, Parser};
 
 pub fn parse_front_matter_and_content(src: &Path) -> (HashMap<&str, String>, String) {
     let mut content = String::new();
@@ -59,6 +60,13 @@ pub fn render_liquid(template: &str, data: HashMap<String, String>) -> String {
     }
     let tmpl = liquid::parse(template, &mut options).unwrap();
     tmpl.render(&mut wrapped_data).unwrap()
+}
+
+pub fn render_markdown(template: &str) -> String {
+    let mut output = String::new();
+    let p = Parser::new(template);
+    html::push_html(&mut output, p);
+    output
 }
 
 pub fn diff(f1_path: &str, f2_path: &str) -> bool {
