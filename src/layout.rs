@@ -1,7 +1,5 @@
-use std::default::Default;
 use std::path::Path;
 use std::collections::HashMap;
-use liquid::{self, Renderable, LiquidOptions, Context};
 use util;
 
 
@@ -22,14 +20,9 @@ impl Layout {
     }
 
     pub fn render(&self, content: String, data: HashMap<String, String>) -> String {
-        let mut options: LiquidOptions = Default::default();
-        let mut wrapped_data = Context::new();
-        for (key, val) in data.iter() {
-            wrapped_data.set_val(key, liquid::Value::Str(val.clone()));
-        }
-        wrapped_data.set_val("content", liquid::Value::Str(content.clone()));
-        let tmpl = liquid::parse(&self.template, &mut options).unwrap();
-        tmpl.render(&mut wrapped_data).unwrap()
+        let mut local_data = data.clone();
+        local_data.insert("content".to_owned(), content);
+        util::render_liquid(&self.template, local_data)
     }
 
     pub fn name(&self) -> String {

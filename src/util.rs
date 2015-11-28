@@ -5,6 +5,7 @@ use std::path::Path;
 use yaml_rust::YamlLoader;
 use crypto::sha1::Sha1;
 use crypto::digest::Digest;
+use liquid::{self, Renderable, LiquidOptions, Context};
 
 pub fn parse_front_matter_and_content(src: &Path) -> (HashMap<&str, String>, String) {
     let mut content = String::new();
@@ -50,6 +51,16 @@ pub fn parse_front_matter_and_content(src: &Path) -> (HashMap<&str, String>, Str
     (front_matter, template.to_owned())
 }
 
+pub fn render_liquid(template: &str, data: HashMap<String, String>) -> String {
+    let mut options: LiquidOptions = Default::default();
+    let mut wrapped_data = Context::new();
+    for (key, val) in data.iter() {
+        wrapped_data.set_val(key, liquid::Value::Str(val.clone()));
+    }
+    let tmpl = liquid::parse(template, &mut options).unwrap();
+    tmpl.render(&mut wrapped_data).unwrap()
+}
+
 pub fn diff(f1_path: &str, f2_path: &str) -> bool {
     diff_path(Path::new(f1_path), Path::new(f2_path))
 }
@@ -88,6 +99,14 @@ fn parses_the_file() {
     assert_eq!(front_matter.get("layout").unwrap(), "main");
     assert_eq!(content, "Hello {{ content }}\n");
 }
+
+#[test]
+fn renders_liquid() {
+    let mut data = HashMap::new();
+    data.insert("title".to_owned(), "sup".to_owned());
+    assert_eq!(render_liquid("hello, {{ title }}", data), "hello, sup");
+}
+
 
 #[test]
 #[should_panic]
