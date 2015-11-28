@@ -30,10 +30,7 @@ impl Post {
         let filename = src.file_stem().unwrap().to_str().unwrap();
         let (date_str, slug, seq) = extract_data_from_filename(filename);
         let (front_matter, content) = util::parse_front_matter_and_content(src);
-        let layout: Option<String> = match front_matter.get("layout") {
-            Some(l) => Some(l.clone()),
-            None => None
-        };
+        let layout = front_matter.get("layout").cloned();
         let title: String = match front_matter.get("title") {
             Some(t) => t.to_owned(),
             None => slug.to_owned()
@@ -103,3 +100,4 @@ fn renders_post_using_specified_layout() {
     let output = layout_store.render(&post.layout.unwrap(), post_content, HashMap::new());
     assert_eq!(output, "Main\nPost\n<h1>hello shit</h1>\n\n\n".to_owned());
 }
+
