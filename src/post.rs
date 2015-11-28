@@ -45,7 +45,10 @@ impl Post {
     }
 
     pub fn render(&self, data: HashMap<String, String>) -> String {
-        util::render_markdown(&self.content)
+        let mut local_data = data.clone();
+        local_data.insert("title".to_owned(), self.title());
+        let result = util::render_liquid(&self.content, local_data);
+        util::render_markdown(&result)
     }
 
     pub fn slug(&self) -> String {
@@ -95,5 +98,14 @@ fn renders_post_using_specified_layout() {
     let post_content = post.render(HashMap::new());
     let output = layout_store.render(&post.layout.unwrap(), post_content, HashMap::new());
     assert_eq!(output, "Main\nPost\n<h1>hello shit</h1>\n\n\n".to_owned());
+}
+
+#[test]
+fn renders_post_with_both_markdown_and_liquid() {
+    let layout_store = LayoutStore::new(Path::new("fixtures/009/_layouts"));
+    let post = Post::new(Path::new("fixtures/009/_posts/2015-10-26-001-merry-xmas.markdown"));
+    let post_content = post.render(HashMap::new());
+    let output = layout_store.render(&post.layout.unwrap(), post_content, HashMap::new());
+    assert_eq!(output, "Main\nPost\n<h1>ooh, boo</h1>\n\n\n".to_owned());
 }
 
