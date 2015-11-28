@@ -38,14 +38,14 @@ impl Layout {
 #[test]
 fn renders_the_freaking_layout() {
     let layout = Layout { name:"".to_owned(), template: "my {{content}}".to_owned(), layout: None };
-    let mut data = HashMap::new();
+    let data = HashMap::new();
     assert_eq!(layout.render("hello world".to_owned(), data), "my hello world".to_owned());
 }
 
 #[test]
 fn new_layout_from_file() {
     let layout = Layout::new(Path::new("fixtures/001/_layouts/main.html"));
-    let mut data = HashMap::new();
+    let data = HashMap::new();
     assert_eq!(layout.render("liquid".to_owned(), data), "Hello liquid\n".to_owned());
     assert_eq!(layout.name(), "main");
 }
@@ -53,7 +53,7 @@ fn new_layout_from_file() {
 #[test]
 #[should_panic]
 fn front_matter_is_required() {
-    let layout = Layout::new(Path::new("fixtures/000/_layouts/main.html"));
+    let _ = Layout::new(Path::new("fixtures/000/_layouts/main.html"));
 }
 
 #[test]
