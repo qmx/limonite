@@ -15,7 +15,7 @@ pub struct Site {
 
 impl Site {
    pub fn new(src_path: &Path) -> Site {
-        let config_path = src_path.join("limonite.yml");
+        let config_path = src_path.join("_limonite.yml");
         let mut config_content = String::new();
         let mut f = File::open(config_path).unwrap();
         let _ = f.read_to_string(&mut config_content);
