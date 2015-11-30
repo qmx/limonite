@@ -23,8 +23,7 @@ impl Site {
         let doc = &docs[0];
         let base_url = doc["base_url"].as_str().unwrap().to_owned();
 
-        let layouts_dir_path = src_path.join("_layouts");
-        let layout_store = LayoutStore::new(&layouts_dir_path);
+        let layout_store = LayoutStore::new(&src_path.join("_layouts"));
 
         let posts_dir = src_path.join("_posts");
         let mut posts = Vec::new();
