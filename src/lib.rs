@@ -10,3 +10,4 @@ mod layout_store;
 pub mod site;
 mod post;
 mod util;
+mod diff;
