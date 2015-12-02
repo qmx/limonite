@@ -67,6 +67,31 @@ pub fn render_markdown(template: &str) -> String {
     output
 }
 
+pub fn relative_from<'a>(target: &'a Path, base: &'a Path) -> Option<&'a Path> {
+    iter_after(target.components(), base.components()).map(|c| c.as_path())
+}
+
+fn iter_after<A, I, J>(mut iter: I, mut prefix: J) -> Option<I>
+    where I: Iterator<Item = A> + Clone,
+    J: Iterator<Item = A>,
+    A: PartialEq
+{
+    loop {
+        let mut iter_next = iter.clone();
+        match (iter_next.next(), prefix.next()) {
+            (Some(x), Some(y)) => {
+                if x != y {
+                    return None;
+                }
+            }
+            (Some(_), None) => return Some(iter),
+            (None, None) => return Some(iter),
+            (None, Some(_)) => return None,
+        }
+        iter = iter_next;
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use std::collections::HashMap;
