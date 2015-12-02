@@ -1,16 +1,20 @@
-use std::path::Path;
+use std::path::{Path,PathBuf};
 use std::fs::{self, File};
 use std::io::prelude::*;
 use yaml_rust::YamlLoader;
 use std::collections::HashMap;
 use layout_store::LayoutStore;
+use util;
 use post::Post;
 
 #[derive(Debug)]
 pub struct Site {
+    src_path: PathBuf,
     base_url: String,
     layout_store: LayoutStore,
-    posts: Vec<Post>
+    posts: Vec<Post>,
+    files_to_copy: Vec<String>,
+    files_to_render: Vec<String>
 }
 
 impl Site {
@@ -35,10 +39,36 @@ impl Site {
             }
         }
 
+        let mut files_to_render = Vec::new();
+        let mut files_to_copy = Vec::new();
+        for entry in fs::read_dir(&src_path).unwrap() {
+            let file_path = entry.unwrap().path();
+            let metadata = fs::metadata(&file_path).unwrap();
+            if (!metadata.is_dir()) {
+                let fname = file_path.file_name().unwrap().to_str().unwrap();
+                if !fname.starts_with("_") {
+                    let relative_file_path = util::relative_from(&file_path, &src_path).unwrap();
+                    match util::parse_front_matter_and_content(&file_path) {
+                        Ok(_) => {
+                            files_to_render.push(relative_file_path.to_str().unwrap().to_owned());
+                        },
+                        Err(_) => {
+                            files_to_copy.push(relative_file_path.to_str().unwrap().to_owned());
+                        }
+                    }
+                }
+            } else {
+            }
+        }
+        println!("{}", src_path.display());
+
         Site {
+            src_path: src_path.to_path_buf(),
             base_url: base_url,
             layout_store: layout_store,
-            posts: posts
+            posts: posts,
+            files_to_render: files_to_render,
+            files_to_copy: files_to_copy
         }
     }
 
@@ -50,19 +80,35 @@ impl Site {
             let output = self.layout_store.render(&post.layout().unwrap(), post.render(HashMap::new()), HashMap::new());
             let _ = f.write_all(output.as_bytes());
         }
+
+        for file in self.files_to_copy.iter() {
+            let src = self.src_path.join(file);
+            let target = output_path.join(file);
+            match fs::copy(&src, &target) {
+                Ok(_) => {
+                    println!("{:?}=>{:?}", src, target);
+                },
+                Err(_) => {
+                    println!("failed {:?}=>{:?}", src, target);
+                }
+            }
+        }
     }
 }
 
 #[cfg(test)]
-mod tests {
+pub mod tests {
     use std::env;
+    use std::fs;
     use std::path::{Path, PathBuf};
     use uuid::Uuid;
+    use diff::compare_paths;
 
     fn get_temp_output_path() -> PathBuf {
         let mut outdir = env::temp_dir();
         outdir.push("limonite");
         outdir.push(Uuid::new_v4().to_simple_string());
+        fs::create_dir_all(&outdir);
         outdir
     }
 
@@ -71,5 +117,6 @@ mod tests {
         let site = super::Site::new(Path::new("fixtures/007"));
         let outdir = get_temp_output_path();
         site.generate(&outdir);
+        assert!(compare_paths(Path::new("fixtures/007/index.html"), &outdir.join("index.html")));
     }
 }
