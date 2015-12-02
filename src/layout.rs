@@ -14,7 +14,7 @@ impl Layout {
 
     pub fn new(src: &Path) -> Layout {
         let fname = src.file_stem().unwrap().to_str().unwrap().to_owned();
-        let (front_matter, template) = util::parse_front_matter_and_content(src);
+        let (front_matter, template) = util::parse_front_matter_and_content(src).unwrap();
         let layout = front_matter.get("layout").cloned();
         Layout { name: fname, template: template.clone(), layout:layout }
     }

@@ -28,7 +28,7 @@ impl Post {
     pub fn new(src: &Path) -> Post {
         let filename = src.file_stem().unwrap().to_str().unwrap();
         let (date_str, slug, seq) = extract_data_from_filename(filename);
-        let (front_matter, content) = util::parse_front_matter_and_content(src);
+        let (front_matter, content) = util::parse_front_matter_and_content(src).unwrap();
         let layout = front_matter.get("layout").cloned();
         let title: String = match front_matter.get("title") {
             Some(t) => t.to_owned(),

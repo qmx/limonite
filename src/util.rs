@@ -6,13 +6,13 @@ use yaml_rust::YamlLoader;
 use liquid::{self, Renderable, LiquidOptions, Context};
 use pulldown_cmark::{html, Parser};
 
-pub fn parse_front_matter_and_content(src: &Path) -> (HashMap<&str, String>, String) {
+pub fn parse_front_matter_and_content(src: &Path) -> Result<(HashMap<&str, String>, String), &'static str> {
     let mut content = String::new();
     let mut f = File::open(src).unwrap();
     let _ = f.read_to_string(&mut content);
     let parts = content.split("---\n").collect::<Vec<_>>();
     if parts.len() != 3 {
-        panic!("front matter is required for layout files");
+        return Err("front matter is required for layout files");
     }
     let mut front_matter = HashMap::new();
     let (front_matter_str, template) = (parts[1].trim(), parts[2]);
@@ -47,7 +47,7 @@ pub fn parse_front_matter_and_content(src: &Path) -> (HashMap<&str, String>, Str
         },
         None => ()
     }
-    (front_matter, template.to_owned())
+    Ok((front_matter, template.to_owned()))
 }
 
 pub fn render_liquid(template: &str, data: HashMap<String, String>) -> String {
@@ -75,7 +75,7 @@ mod tests {
 
     #[test]
     fn parses_the_file() {
-        let (front_matter, content) = super::parse_front_matter_and_content(Path::new("fixtures/002/_layouts/post.html"));
+        let (front_matter, content) = super::parse_front_matter_and_content(Path::new("fixtures/002/_layouts/post.html")).unwrap();
         assert_eq!(front_matter.get("layout").unwrap(), "main");
         assert_eq!(content, "Hello {{ content }}\n");
     }
