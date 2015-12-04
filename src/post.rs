@@ -47,7 +47,7 @@ impl Post {
     pub fn render(&self, data: HashMap<String, String>) -> String {
         let mut local_data = data.clone();
         local_data.insert("title".to_owned(), self.title());
-        let result = util::render_liquid(&self.content, local_data);
+        let result = util::render_liquid(&self.content, local_data).expect("render failure");
         util::render_markdown(&result)
     }
 

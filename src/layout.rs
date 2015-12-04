@@ -22,7 +22,7 @@ impl Layout {
     pub fn render(&self, content: String, data: HashMap<String, String>) -> String {
         let mut local_data = data.clone();
         local_data.insert("content".to_owned(), content);
-        util::render_liquid(&self.template, local_data)
+        util::render_liquid(&self.template, local_data).expect("couldn't render")
     }
 
     pub fn name(&self) -> String {

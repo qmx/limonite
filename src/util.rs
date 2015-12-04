@@ -8,7 +8,7 @@ use pulldown_cmark::{html, Parser};
 
 pub fn parse_front_matter_and_content(src: &Path) -> Result<(HashMap<&str, String>, String), &'static str> {
     let mut content = String::new();
-    let mut f = File::open(src).unwrap();
+    let mut f = File::open(src).ok().expect(&format!("can't open {}", src.display()));
     let _ = f.read_to_string(&mut content);
     let parts = content.split("---\n").collect::<Vec<_>>();
     if parts.len() != 3 {
@@ -50,14 +50,14 @@ pub fn parse_front_matter_and_content(src: &Path) -> Result<(HashMap<&str, Strin
     Ok((front_matter, template.to_owned()))
 }
 
-pub fn render_liquid(template: &str, data: HashMap<String, String>) -> String {
+pub fn render_liquid(template: &str, data: HashMap<String, String>) -> Option<String> {
     let mut options: LiquidOptions = Default::default();
     let mut wrapped_data = Context::new();
     for (key, val) in data.iter() {
         wrapped_data.set_val(key, liquid::Value::Str(val.clone()));
     }
-    let tmpl = liquid::parse(template, &mut options).unwrap();
-    tmpl.render(&mut wrapped_data).unwrap()
+    let tmpl = liquid::parse(template, &mut options).ok().expect("couldn't parse the template");
+    tmpl.render(&mut wrapped_data).ok().expect("render failed")
 }
 
 pub fn render_markdown(template: &str) -> String {
@@ -109,7 +109,7 @@ mod tests {
     fn renders_liquid() {
         let mut data = HashMap::new();
         data.insert("title".to_owned(), "sup".to_owned());
-        assert_eq!(super::render_liquid("hello, {{ title }}", data), "hello, sup");
+        assert_eq!(super::render_liquid("hello, {{ title }}", data).unwrap(), "hello, sup");
     }
 
 }
