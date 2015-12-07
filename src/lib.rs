@@ -5,6 +5,7 @@ extern crate yaml_rust;
 extern crate regex;
 extern crate crypto;
 
+mod document;
 mod layout;
 mod layout_store;
 pub mod site;
