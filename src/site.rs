@@ -93,6 +93,21 @@ impl Site {
                 }
             }
         }
+
+        for file in self.files_to_render.iter() {
+            let target = output_path.join(file);
+            match util::parse_front_matter_and_content(&self.src_path.join(file)) {
+                Ok((front_matter, content)) => {
+                    let mut data = HashMap::new();
+                    let result = util::render_liquid(&content, data).expect("couldn't render");
+                    let mut f = File::create(target).ok().expect("file not found");
+                    let _ = f.write_all(result.as_bytes());
+                },
+                Err(why) => {
+                    println!("ooo {}", why);
+                }
+            }
+        }
     }
 }
 
@@ -118,5 +133,21 @@ pub mod tests {
         let outdir = get_temp_output_path();
         site.generate(&outdir);
         assert!(compare_paths(Path::new("fixtures/007/index.html"), &outdir.join("index.html")));
+    }
+
+    #[test]
+    fn renders_files_with_front_matter() {
+        let site = super::Site::new(Path::new("fixtures/010"));
+        let outdir = get_temp_output_path();
+        site.generate(&outdir);
+        assert!(compare_paths(Path::new("fixtures/010-output/index.html"), &outdir.join("index.html")));
+    }
+
+    #[test]
+    fn renders_files_with_front_matter2() {
+        let site = super::Site::new(Path::new("fixtures/011"));
+        let outdir = get_temp_output_path();
+        site.generate(&outdir);
+        assert!(compare_paths(Path::new("fixtures/011-output/main.html"), &outdir.join("main.html")));
     }
 }
