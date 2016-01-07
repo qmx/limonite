@@ -1,5 +1,5 @@
 Name:		limonite
-Version:	0.0.4
+Version:	0.0.5
 Release:	1%{?dist}
 Summary: meh
 
@@ -28,6 +28,11 @@ cp -p target/debug/limonite %{buildroot}%{_bindir}/
 %files
 /usr/bin/limonite
 %changelog
+* Thu Jan 07 2016 Douglas Campos <qmx@qmx.me> 0.0.5-1
+- fix revision before bumping (qmx@qmx.me)
+- sync version (qmx@qmx.me)
+- add missing empty folders (qmx@qmx.me)
+
 * Thu Jan 07 2016 Douglas Campos <qmx@qmx.me> 0.0.4-2
 - bump up version on Cargo (qmx@qmx.me)
 - fix license on the spec file (qmx@qmx.me)
