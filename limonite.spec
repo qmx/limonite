@@ -4,7 +4,7 @@ Release:	1%{?dist}
 Summary: meh
 
 Group:	Applications/Publishing
-License: Apache 2
+License:	ASL 2.0
 URL: http://github.com/qmx/limonite
 Source0:	https://github.com/qmx/limonite/archive/limonite-%{version}-1.tar.gz#/%{name}-%{version}.tar.gz
 
