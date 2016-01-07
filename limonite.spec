@@ -6,7 +6,7 @@ Summary: meh
 Group:	Applications/Publishing
 License: Apache 2
 URL: http://github.com/qmx/limonite
-Source0:	https://github.com/qmx/limonite/archive/limonite-%{version}-1.tar.gz
+Source0:	https://github.com/qmx/limonite/archive/limonite-%{version}-1.tar.gz#/%{name}-%{version}.tar.gz
 
 BuildRequires:	rust-binary
 
@@ -14,7 +14,7 @@ BuildRequires:	rust-binary
 
 
 %prep
-%setup -q
+%setup -qn %{name}-%{version}
 
 
 %build
