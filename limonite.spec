@@ -1,5 +1,5 @@
 Name:		limonite
-Version:	0.0.3
+Version:	0.0.4
 Release:	1%{?dist}
 Summary: meh
 
@@ -28,6 +28,9 @@ cp -p target/debug/limonite %{buildroot}%{_bindir}/
 %files
 /usr/bin/limonite
 %changelog
+* Thu Jan 07 2016 Douglas Campos <qmx@qmx.me> 0.0.4-1
+- still trying to fix the rpm build (qmx@qmx.me)
+
 * Thu Jan 07 2016 Douglas Campos <qmx@qmx.me> 0.0.3-1
 - fixing bogus url, again (qmx@qmx.me)
 
