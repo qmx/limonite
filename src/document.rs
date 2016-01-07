@@ -16,6 +16,11 @@ impl Document {
         Ok(content)
     }
 
+    fn has_front_matter(&self) -> bool {
+        let content = self.read_file_contents().expect("can't open");
+        content.starts_with("---\n")
+    }
+
     pub fn new(src_path: &Path) -> Result<Document, String> {
         let path = try!(src_path.to_str().ok_or("cannot convert path to string".to_owned()));
         Ok(Document { src_path: path.to_owned() })
@@ -27,4 +32,16 @@ impl Document {
 fn lazily_builds_a_document_from_path() {
     let document = Document::new(Path::new("fixtures/012/index.html")).unwrap();
     assert_eq!("---\ntitle: woo\n---", document.read_file_contents().unwrap());
+}
+
+#[test]
+fn verify_existing_front_matter() {
+    let document = Document::new(Path::new("fixtures/012/index.html")).unwrap();
+    assert!(document.has_front_matter());
+}
+
+#[test]
+fn verify_missing_front_matter() {
+    let document = Document::new(Path::new("fixtures/012/static.html")).unwrap();
+    assert!(!document.has_front_matter());
 }
