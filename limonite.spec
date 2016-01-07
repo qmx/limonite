@@ -1,6 +1,6 @@
 Name:		limonite
 Version:	0.0.4
-Release:	2%{?dist}
+Release:	1%{?dist}
 Summary: meh
 
 Group:	Applications/Publishing
