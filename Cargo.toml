@@ -1,6 +1,6 @@
 [package]
 name = "limonite"
-version = "0.0.4"
+version = "0.0.5"
 authors = ["Douglas Campos <qmx@qmx.me>"]
 description = "small blog generator"
 license = "Apache-2.0"
