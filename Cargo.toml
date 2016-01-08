@@ -5,6 +5,10 @@ authors = ["Douglas Campos <qmx@qmx.me>"]
 description = "small blog generator"
 license = "Apache-2.0"
 homepage = "https://github.com/qmx/limonite"
+build = "build.rs"
+
+[build-dependencies]
+git2 = "0.3"
 
 [dependencies]
 liquid = "0.2.0"

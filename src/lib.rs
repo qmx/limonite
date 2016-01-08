@@ -12,3 +12,5 @@ pub mod site;
 mod post;
 mod util;
 mod diff;
+
+include!(concat!(env!("OUT_DIR"), "/version.rs"));
