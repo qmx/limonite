@@ -13,6 +13,6 @@ fn main() {
     let dest_path = Path::new(&out_dir).join("version.rs");
     let mut f = File::create(&dest_path).unwrap();
     f.write_all(b"pub const GIT_VERSION: &'static str = \"").unwrap();
-    f.write_all(describe.format(None).unwrap().as_bytes()).unwrap();
+    f.write_all(describe.format(None).unwrap().trim_left_matches("limonite-").as_bytes()).unwrap();
     f.write_all(b"\";").unwrap();
 }
