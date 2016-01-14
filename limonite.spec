@@ -18,12 +18,12 @@ BuildRequires:	rust-binary
 
 
 %build
-cargo build
+cargo build --release
 
 %install
 rm -rf %{buildroot}
 mkdir -p %{buildroot}%{_bindir}/
-cp -p target/debug/limonite %{buildroot}%{_bindir}/
+cp -p target/release/limonite %{buildroot}%{_bindir}/
 
 %files
 /usr/bin/limonite
