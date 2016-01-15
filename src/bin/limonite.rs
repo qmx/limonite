@@ -11,7 +11,7 @@ fn main() {
     let matches = App::new("limonite")
         .author("Douglas Campos <qmx@qmx.me>")
         .version(GIT_VERSION)
-        .about("blazingly-fast static site and blog generator")
+        .about("blazing fast static site and blog generator")
         .args_from_usage(
             "<SOURCE_PATH> 'path to folder containing the site structure'
             <TARGET_PATH> 'path to where limonite should write the generated files'")
