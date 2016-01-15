@@ -1,6 +1,6 @@
 Name:		limonite
 Version:	0.1.0
-Release:	1%{?dist}
+Release:	2%{?dist}
 Summary: meh
 
 Group:	Applications/Publishing
@@ -29,6 +29,10 @@ cp -p target/release/limonite %{buildroot}%{_bindir}/
 %files
 /usr/bin/limonite
 %changelog
+* Fri Jan 15 2016 Douglas Campos <qmx@qmx.me> 0.1.0-2
+- giving a shot to the ReleaseTagger (qmx@qmx.me)
+- add missing build dep for rpm (qmx@qmx.me)
+
 * Fri Jan 15 2016 Douglas Campos <qmx@qmx.me> 0.1.0-1
 - bump version to 0.1.0 (qmx@qmx.me)
 - add verbose flag (qmx@qmx.me)
