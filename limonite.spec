@@ -1,6 +1,6 @@
 Name:		limonite
 Version:	0.1.0
-Release:	3%{?dist}
+Release:	4%{?dist}
 Summary: meh
 
 Group:	Applications/Publishing
@@ -30,6 +30,9 @@ cp -p target/release/limonite %{buildroot}%{_bindir}/
 %files
 /usr/bin/limonite
 %changelog
+* Fri Jan 15 2016 Douglas Campos <qmx@qmx.me> 0.1.0-4
+- rpm build strips git info (qmx@qmx.me)
+
 * Fri Jan 15 2016 Douglas Campos <qmx@qmx.me> 0.1.0-3
 - add another missing build dep for rpm (qmx@qmx.me)
 
