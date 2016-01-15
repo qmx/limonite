@@ -28,6 +28,17 @@ cp -p target/release/limonite %{buildroot}%{_bindir}/
 %files
 /usr/bin/limonite
 %changelog
+* Fri Jan 15 2016 Douglas Campos <qmx@qmx.me> 0.1.0-1
+- bump version to 0.1.0 (qmx@qmx.me)
+- add verbose flag (qmx@qmx.me)
+- better about description (qmx@qmx.me)
+- another travis config goof (qmx@qmx.me)
+- use a newer cmake (qmx@qmx.me)
+- use --release flag for the builds (qmx@qmx.me)
+- add a better cli interface (qmx@qmx.me)
+- ensure GIT_VERSION is free from tito junk (qmx@qmx.me)
+- add git version tag to the library (qmx@qmx.me)
+
 * Thu Jan 07 2016 Douglas Campos <qmx@qmx.me> 0.0.5-1
 - fix revision before bumping (qmx@qmx.me)
 - sync version (qmx@qmx.me)
