@@ -10,6 +10,7 @@ Source0:	https://github.com/qmx/limonite/archive/limonite-%{version}-1.tar.gz#/%
 
 BuildRequires:	rust-binary
 BuildRequires:	cmake
+BuildRequires:	openssl-devel
 
 %description
 
