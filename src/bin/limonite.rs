@@ -13,7 +13,8 @@ fn main() {
         .version(GIT_VERSION)
         .about("blazing fast static site and blog generator")
         .args_from_usage(
-            "<SOURCE_PATH> 'path to folder containing the site structure'
+            "[verbose] -v --verbose 'increase verboseness'
+            <SOURCE_PATH> 'path to folder containing the site structure'
             <TARGET_PATH> 'path to where limonite should write the generated files'")
         .get_matches();
     let src_path = Path::new(matches.value_of("SOURCE_PATH").unwrap());
