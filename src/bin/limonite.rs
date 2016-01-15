@@ -3,14 +3,14 @@ extern crate clap;
 use clap::{Arg, App};
 
 use limonite::site::Site;
-use limonite::GIT_VERSION;
+use limonite::VERSION;
 use std::env;
 use std::path::Path;
 
 fn main() {
     let matches = App::new("limonite")
         .author("Douglas Campos <qmx@qmx.me>")
-        .version(GIT_VERSION)
+        .version(VERSION)
         .about("blazing fast static site and blog generator")
         .args_from_usage(
             "[verbose] -v --verbose 'increase verboseness'
