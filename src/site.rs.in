@@ -1,0 +1,13 @@
+
+#[derive(Serialize, Debug)]
+pub struct Site {
+    src_path: PathBuf,
+    base_url: String,
+    #[serde(skip_serializing)]
+    layout_store: LayoutStore,
+    posts: Vec<Post>,
+    #[serde(skip_serializing)]
+    files_to_copy: Vec<String>,
+    #[serde(skip_serializing)]
+    files_to_render: Vec<String>
+}

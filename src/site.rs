@@ -7,15 +7,7 @@ use layout_store::LayoutStore;
 use util;
 use post::Post;
 
-#[derive(Debug)]
-pub struct Site {
-    src_path: PathBuf,
-    base_url: String,
-    layout_store: LayoutStore,
-    posts: Vec<Post>,
-    files_to_copy: Vec<String>,
-    files_to_render: Vec<String>
-}
+include!(concat!(env!("OUT_DIR"), "/site.rs"));
 
 impl Site {
    pub fn new(src_path: &Path) -> Site {
