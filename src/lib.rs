@@ -4,6 +4,7 @@ extern crate uuid;
 extern crate yaml_rust;
 extern crate regex;
 extern crate crypto;
+extern crate handlebars;
 extern crate serde;
 extern crate serde_json;
 
