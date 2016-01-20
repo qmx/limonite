@@ -1,4 +1,6 @@
 extern crate git2;
+extern crate syntex;
+extern crate serde_codegen;
 
 use std::env;
 use std::fs::File;
@@ -21,6 +23,18 @@ fn gen_version() {
         }
     };
     f.write_all(b"\";").unwrap();
+}
+
+fn process_serde_macros(input: &str, out: &str) {
+    let out_dir = env::var_os("OUT_DIR").unwrap();
+
+    let src = Path::new(input);
+    let dst = Path::new(&out_dir).join(out);
+
+    let mut registry = syntex::Registry::new();
+
+    serde_codegen::register(&mut registry);
+    registry.expand("", &src, &dst).unwrap();
 }
 
 fn main() {
