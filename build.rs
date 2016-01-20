@@ -11,7 +11,7 @@ fn gen_version() {
     let dest_path = Path::new(&out_dir).join("version.rs");
     let mut f = File::create(&dest_path).unwrap();
     f.write_all(b"pub const VERSION: &'static str = \"").unwrap();
-    let version = match Repository::open(Path::new(".")) {
+    match Repository::open(Path::new(".")) {
         Ok(repo) => {
             let describe = repo.describe(DescribeOptions::new().show_commit_oid_as_fallback(true)).unwrap();
             f.write_all(describe.format(None).unwrap().trim_left_matches("limonite-").as_bytes()).unwrap();
