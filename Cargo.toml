@@ -14,7 +14,6 @@ syntex = "0.26.0"
 
 [dependencies]
 clap = "1.5.5"
-handlebars = "0.13.0"
 liquid = "0.2.0"
 pulldown-cmark = "0.0.3"
 regex = "0.1.41"
@@ -23,3 +22,7 @@ serde = "0.6.10"
 serde_json = "0.6.0"
 uuid = "0.1.18"
 yaml-rust = "0.2.2"
+
+[dependencies.handlebars]
+version = "0.13.0"
+features = ["serde_type"]
