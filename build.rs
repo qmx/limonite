@@ -39,4 +39,5 @@ fn process_serde_macros(input: &str, out: &str) {
 
 fn main() {
     gen_version();
+    process_serde_macros("src/post.rs.in", "post.rs");
 }

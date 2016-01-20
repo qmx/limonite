@@ -4,15 +4,7 @@ use layout_store::LayoutStore;
 use regex::Regex;
 use util;
 
-#[derive(Debug)]
-pub struct Post {
-    title: String,
-    slug: String,
-    content: String,
-    layout: Option<String>,
-    date: String,
-    seq: u8
-}
+include!(concat!(env!("OUT_DIR"), "/post.rs"));
 
 fn extract_data_from_filename(filename: &str) -> (&str, &str, u8) {
     let re = Regex::new(r"^(\d{4}-\d{2}-\d{2})-(\d{3})-(.+)$").unwrap();
