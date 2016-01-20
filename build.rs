@@ -6,7 +6,7 @@ use std::io::Write;
 use std::path::Path;
 use git2::{Repository, DescribeOptions};
 
-fn main() {
+fn gen_version() {
     let out_dir = env::var("OUT_DIR").unwrap();
     let dest_path = Path::new(&out_dir).join("version.rs");
     let mut f = File::create(&dest_path).unwrap();
@@ -21,4 +21,8 @@ fn main() {
         }
     };
     f.write_all(b"\";").unwrap();
+}
+
+fn main() {
+    gen_version();
 }
