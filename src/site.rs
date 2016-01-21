@@ -3,11 +3,20 @@ use std::fs::{self, File};
 use std::io::prelude::*;
 use yaml_rust::YamlLoader;
 use std::collections::HashMap;
+use handlebars::Handlebars;
 use layout_store::LayoutStore;
 use util;
 use post::Post;
+use std::fmt;
+use serde_json;
 
 include!(concat!(env!("OUT_DIR"), "/site.rs"));
+
+impl fmt::Debug for Site {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        write!(f, "{}", serde_json::to_string(&self).unwrap())
+    }
+}
 
 impl Site {
    pub fn new(src_path: &Path) -> Site {
@@ -59,6 +68,7 @@ impl Site {
             base_url: base_url,
             layout_store: layout_store,
             posts: posts,
+            handlebars: Handlebars::new(),
             files_to_render: files_to_render,
             files_to_copy: files_to_copy
         }
