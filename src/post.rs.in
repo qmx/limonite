@@ -3,7 +3,6 @@ pub struct Post {
     title: String,
     slug: String,
     content: String,
-    layout: Option<String>,
     date: String,
     seq: u8
 }

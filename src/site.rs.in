@@ -4,8 +4,6 @@ pub struct Site {
     src_path: PathBuf,
     base_url: String,
     #[serde(skip_serializing)]
-    layout_store: LayoutStore,
-    #[serde(skip_serializing)]
     handlebars: Handlebars,
     posts: Vec<Post>,
     #[serde(skip_serializing)]

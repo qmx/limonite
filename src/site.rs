@@ -4,7 +4,6 @@ use std::io::prelude::*;
 use yaml_rust::YamlLoader;
 use std::collections::HashMap;
 use handlebars::Handlebars;
-use layout_store::LayoutStore;
 use util;
 use post::Post;
 use std::fmt;
@@ -28,7 +27,20 @@ impl Site {
         let doc = &docs[0];
         let base_url = doc["base_url"].as_str().unwrap().to_owned();
 
-        let layout_store = LayoutStore::new(&src_path.join("_layouts"));
+        let mut handlebars = Handlebars::new();
+
+        // Load layouts
+        for entry in fs::read_dir(&src_path.join("_layouts")).unwrap() {
+            let layout_path = entry.unwrap().path();
+            let fname = layout_path.file_name().unwrap().to_str().unwrap();
+            if !fname.starts_with(".") && fname.ends_with("hbs") {
+                let mut content = String::new();
+                let mut f = File::open(&layout_path).ok().expect(&format!("can't open {}", layout_path.display()));
+                let _ = f.read_to_string(&mut content);
+                handlebars.register_template_string(fname, content).expect("failed to read layout");
+                println!("registered layout template {}", fname);
+            }
+        }
 
         let posts_dir = src_path.join("_posts");
         let mut posts = Vec::new();

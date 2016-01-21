@@ -9,8 +9,6 @@ extern crate serde;
 extern crate serde_json;
 
 mod document;
-mod layout;
-mod layout_store;
 pub mod site;
 mod post;
 mod util;
