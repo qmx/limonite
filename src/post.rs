@@ -27,7 +27,7 @@ impl Post {
         Post {
             title: title,
             slug: slug.to_owned(),
-            content: content.to_owned(),
+            content: util::render_markdown(&content),
             date: date_str.to_owned(),
             seq: seq
         }

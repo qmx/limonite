@@ -37,8 +37,8 @@ impl Site {
                 let mut content = String::new();
                 let mut f = File::open(&layout_path).ok().expect(&format!("can't open {}", layout_path.display()));
                 let _ = f.read_to_string(&mut content);
-                handlebars.register_template_string(fname, content).expect("failed to read layout");
-                println!("registered layout template {}", fname);
+                let template_name = layout_path.file_stem().unwrap().to_str().unwrap();
+                handlebars.register_template_string(template_name, content).expect("failed to read layout");
             }
         }
 
@@ -54,33 +54,32 @@ impl Site {
 
         let mut files_to_render = Vec::new();
         let mut files_to_copy = Vec::new();
-        for entry in fs::read_dir(&src_path).unwrap() {
-            let file_path = entry.unwrap().path();
-            let metadata = fs::metadata(&file_path).unwrap();
-            if (!metadata.is_dir()) {
-                let fname = file_path.file_name().unwrap().to_str().unwrap();
-                if !fname.starts_with("_") {
-                    let relative_file_path = util::relative_from(&file_path, &src_path).unwrap();
-                    match util::parse_front_matter_and_content(&file_path) {
-                        Ok(_) => {
-                            files_to_render.push(relative_file_path.to_str().unwrap().to_owned());
-                        },
-                        Err(_) => {
-                            files_to_copy.push(relative_file_path.to_str().unwrap().to_owned());
-                        }
-                    }
-                }
-            } else {
-            }
-        }
-        println!("{}", src_path.display());
+        //for entry in fs::read_dir(&src_path).unwrap() {
+            //let file_path = entry.unwrap().path();
+            //let metadata = fs::metadata(&file_path).unwrap();
+            //if (!metadata.is_dir()) {
+                //let fname = file_path.file_name().unwrap().to_str().unwrap();
+                //if !fname.starts_with("_") {
+                    //let relative_file_path = util::relative_from(&file_path, &src_path).unwrap();
+                    //match util::parse_front_matter_and_content(&file_path) {
+                        //Ok(_) => {
+                            //files_to_render.push(relative_file_path.to_str().unwrap().to_owned());
+                        //},
+                        //Err(_) => {
+                            //files_to_copy.push(relative_file_path.to_str().unwrap().to_owned());
+                        //}
+                    //}
+                //}
+            //} else {
+            //}
+        //}
+        //println!("{}", src_path.display());
 
         Site {
             src_path: src_path.to_path_buf(),
             base_url: base_url,
-            layout_store: layout_store,
             posts: posts,
-            handlebars: Handlebars::new(),
+            handlebars: handlebars,
             files_to_render: files_to_render,
             files_to_copy: files_to_copy
         }
@@ -91,37 +90,37 @@ impl Site {
             let dir = output_path.join(post.slug());
             let _ = fs::create_dir_all(&dir);
             let mut f = File::create(&dir.join("index.html")).unwrap();
-            let output = self.layout_store.render(&post.layout().unwrap(), post.render(HashMap::new()), HashMap::new());
+            let output = self.handlebars.render("post", &post).ok().expect("failed to render post");
             let _ = f.write_all(output.as_bytes());
         }
 
-        for file in self.files_to_copy.iter() {
-            let src = self.src_path.join(file);
-            let target = output_path.join(file);
-            match fs::copy(&src, &target) {
-                Ok(_) => {
-                    println!("{:?}=>{:?}", src, target);
-                },
-                Err(_) => {
-                    println!("failed {:?}=>{:?}", src, target);
-                }
-            }
-        }
+        //for file in self.files_to_copy.iter() {
+            //let src = self.src_path.join(file);
+            //let target = output_path.join(file);
+            //match fs::copy(&src, &target) {
+                //Ok(_) => {
+                    //println!("{:?}=>{:?}", src, target);
+                //},
+                //Err(_) => {
+                    //println!("failed {:?}=>{:?}", src, target);
+                //}
+            //}
+        //}
 
-        for file in self.files_to_render.iter() {
-            let target = output_path.join(file);
-            match util::parse_front_matter_and_content(&self.src_path.join(file)) {
-                Ok((front_matter, content)) => {
-                    let mut data = HashMap::new();
-                    let result = util::render_liquid(&content, data).expect("couldn't render");
-                    let mut f = File::create(target).ok().expect("file not found");
-                    let _ = f.write_all(result.as_bytes());
-                },
-                Err(why) => {
-                    println!("ooo {}", why);
-                }
-            }
-        }
+        //for file in self.files_to_render.iter() {
+            //let target = output_path.join(file);
+            //match util::parse_front_matter_and_content(&self.src_path.join(file)) {
+                //Ok((front_matter, content)) => {
+                    //let mut data = HashMap::new();
+                    //let result = util::render_liquid(&content, data).expect("couldn't render");
+                    //let mut f = File::create(target).ok().expect("file not found");
+                    //let _ = f.write_all(result.as_bytes());
+                //},
+                //Err(why) => {
+                    //println!("ooo {}", why);
+                //}
+            //}
+        //}
     }
 }
 
