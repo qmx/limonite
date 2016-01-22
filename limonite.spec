@@ -1,7 +1,7 @@
 Name:		limonite
 Version:	0.2.0
-Release:	4%{?dist}
-Summary: meh
+Release:	1%{?dist}
+Summary: yet another highly-opinionated blog and static site generator
 
 Group:	Applications/Publishing
 License:	ASL 2.0
