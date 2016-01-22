@@ -27,7 +27,7 @@ pub fn compare_paths(p1: &Path, p2: &Path) -> bool {
     h1.input(&b1);
     let r1 = h1.result_str();
 
-    let mut b2 = Vec::new();
+    let b2 = Vec::new();
     let _ = f2.read_to_end(&mut b1);
     let mut h2 = Sha1::new();
     h2.input(&b2);

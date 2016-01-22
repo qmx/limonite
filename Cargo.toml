@@ -1,20 +1,28 @@
 [package]
+authors = ["Douglas Campos <qmx@qmx.me>"]
+build = "build.rs"
+description = "small blog generator"
+homepage = "https://github.com/qmx/limonite"
+license = "Apache-2.0"
 name = "limonite"
 version = "0.1.0"
-authors = ["Douglas Campos <qmx@qmx.me>"]
-description = "small blog generator"
-license = "Apache-2.0"
-homepage = "https://github.com/qmx/limonite"
-build = "build.rs"
 
 [build-dependencies]
 git2 = "0.3"
+serde_codegen = "0.6.10"
+syntex = "0.26.0"
 
 [dependencies]
-liquid = "0.2.0"
+clap = "1.5.5"
 pulldown-cmark = "0.0.3"
-yaml-rust = "0.2.2"
-uuid = "0.1.18"
 regex = "0.1.41"
 rust-crypto = "0.2.34"
-clap = "1.5.5"
+serde = "0.6.10"
+serde_json = "0.6.0"
+uuid = "0.1.18"
+walkdir = "0.1.5"
+yaml-rust = "0.2.2"
+
+[dependencies.handlebars]
+features = ["serde_type"]
+version = "0.13.0"
