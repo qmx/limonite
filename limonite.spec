@@ -30,6 +30,28 @@ cp -p target/release/limonite %{buildroot}%{_bindir}/
 %files
 /usr/bin/limonite
 %changelog
+* Thu Jan 21 2016 Douglas Campos <qmx@qmx.me> 0.2.0-1
+- fix release version (qmx@qmx.me)
+- updating readme (qmx@qmx.me)
+- bump up version to 0.2.0 (qmx@qmx.me)
+- tons of cleanups (qmx@qmx.me)
+- handlebars rendering complete (qmx@qmx.me)
+- add walkdir (qmx@qmx.me)
+- make it pretty (qmx@qmx.me)
+- rendering posts with handlebars (qmx@qmx.me)
+- remove most of the old layout structure (qmx@qmx.me)
+- canonical blog layout (qmx@qmx.me)
+- update documentation (qmx@qmx.me)
+- manually implement Debug trait (qmx@qmx.me)
+- generate serialization for Site (qmx@qmx.me)
+- enable serde types for handlebars (qmx@qmx.me)
+- bring handlebars crate in (qmx@qmx.me)
+- generate serialization for Post (qmx@qmx.me)
+- introduce serde (qmx@qmx.me)
+- strip unused variable (qmx@qmx.me)
+- split version generation on its own function (qmx@qmx.me)
+- add handlebars dep (qmx@qmx.me)
+
 * Fri Jan 15 2016 Douglas Campos <qmx@qmx.me> 0.1.0-4
 - rpm build strips git info (qmx@qmx.me)
 
