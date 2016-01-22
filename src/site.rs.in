@@ -9,5 +9,7 @@ pub struct Site {
     #[serde(skip_serializing)]
     files_to_copy: Vec<String>,
     #[serde(skip_serializing)]
-    files_to_render: Vec<String>
+    files_to_render: Vec<String>,
+    #[serde(skip_serializing)]
+    dirs_to_create: Vec<String>,
 }

@@ -7,6 +7,7 @@ extern crate crypto;
 extern crate handlebars;
 extern crate serde;
 extern crate serde_json;
+extern crate walkdir;
 
 mod document;
 pub mod site;
