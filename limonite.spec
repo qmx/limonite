@@ -30,6 +30,10 @@ cp -p target/release/limonite %{buildroot}%{_bindir}/
 %files
 /usr/bin/limonite
 %changelog
+* Fri Jan 22 2016 Douglas Campos <qmx@qmx.me> 0.2.1-1
+- bump up version (qmx@qmx.me)
+- reversing the post list (qmx@qmx.me)
+
 * Thu Jan 21 2016 Douglas Campos <qmx@qmx.me> 0.2.0-1
 - fix release version (qmx@qmx.me)
 - updating readme (qmx@qmx.me)
