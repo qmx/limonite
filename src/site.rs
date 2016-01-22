@@ -90,6 +90,9 @@ impl Site {
             }
         }
 
+        // Reverse post list
+        posts.reverse();
+
         Site {
             src_path: src_path.to_path_buf(),
             base_url: base_url,
@@ -106,7 +109,7 @@ impl Site {
             let dir = output_path.join(post.slug());
             let _ = fs::create_dir_all(&dir);
             let mut f = File::create(&dir.join("index.html")).unwrap();
-            let output = self.handlebars.render("post", &post).ok().expect("failed to render post");
+            let output = self.handlebars.render("post", &post).ok().expect(&format!("failed to render post {:?}", f));
             let _ = f.write_all(output.as_bytes());
         }
 
