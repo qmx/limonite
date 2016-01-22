@@ -5,7 +5,7 @@ description = "small blog generator"
 homepage = "https://github.com/qmx/limonite"
 license = "Apache-2.0"
 name = "limonite"
-version = "0.2.0"
+version = "0.2.1"
 
 [build-dependencies]
 git2 = "0.3"

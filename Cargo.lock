@@ -1,6 +1,6 @@
 [root]
 name = "limonite"
-version = "0.2.0"
+version = "0.2.1"
 dependencies = [
  "clap 1.5.5 (registry+https://github.com/rust-lang/crates.io-index)",
  "git2 0.3.3 (registry+https://github.com/rust-lang/crates.io-index)",
