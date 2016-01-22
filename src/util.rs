@@ -3,7 +3,6 @@ use std::fs::File;
 use std::io::prelude::*;
 use std::path::Path;
 use yaml_rust::YamlLoader;
-use liquid::{self, Renderable, LiquidOptions, Context};
 use pulldown_cmark::{html, Parser};
 
 pub fn parse_front_matter_and_content(src: &Path) -> Result<(HashMap<&str, String>, String), &'static str> {
@@ -50,16 +49,6 @@ pub fn parse_front_matter_and_content(src: &Path) -> Result<(HashMap<&str, Strin
     Ok((front_matter, template.to_owned()))
 }
 
-pub fn render_liquid(template: &str, data: HashMap<String, String>) -> Option<String> {
-    let mut options: LiquidOptions = Default::default();
-    let mut wrapped_data = Context::new();
-    for (key, val) in data.iter() {
-        wrapped_data.set_val(key, liquid::Value::Str(val.clone()));
-    }
-    let tmpl = liquid::parse(template, &mut options).ok().expect("couldn't parse the template");
-    tmpl.render(&mut wrapped_data).ok().expect("render failed")
-}
-
 pub fn render_markdown(template: &str) -> String {
     let mut output = String::new();
     let p = Parser::new(template);
@@ -94,7 +83,6 @@ fn iter_after<A, I, J>(mut iter: I, mut prefix: J) -> Option<I>
 
 #[cfg(test)]
 mod tests {
-    use std::collections::HashMap;
     use std::path::Path;
 
 
@@ -104,12 +92,4 @@ mod tests {
         assert_eq!(front_matter.get("layout").unwrap(), "main");
         assert_eq!(content, "Hello {{ content }}\n");
     }
-
-    #[test]
-    fn renders_liquid() {
-        let mut data = HashMap::new();
-        data.insert("title".to_owned(), "sup".to_owned());
-        assert_eq!(super::render_liquid("hello, {{ title }}", data).unwrap(), "hello, sup");
-    }
-
 }

@@ -1,5 +1,4 @@
 extern crate pulldown_cmark;
-extern crate liquid;
 extern crate uuid;
 extern crate yaml_rust;
 extern crate regex;
@@ -9,10 +8,10 @@ extern crate serde;
 extern crate serde_json;
 extern crate walkdir;
 
-mod document;
 pub mod site;
 mod post;
 mod util;
+#[cfg(test)]
 mod diff;
 
 include!(concat!(env!("OUT_DIR"), "/version.rs"));

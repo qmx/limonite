@@ -5,7 +5,6 @@ dependencies = [
  "clap 1.5.5 (registry+https://github.com/rust-lang/crates.io-index)",
  "git2 0.3.3 (registry+https://github.com/rust-lang/crates.io-index)",
  "handlebars 0.13.0 (registry+https://github.com/rust-lang/crates.io-index)",
- "liquid 0.2.0 (registry+https://github.com/rust-lang/crates.io-index)",
  "pulldown-cmark 0.0.3 (registry+https://github.com/rust-lang/crates.io-index)",
  "regex 0.1.41 (registry+https://github.com/rust-lang/crates.io-index)",
  "rust-crypto 0.2.34 (registry+https://github.com/rust-lang/crates.io-index)",
@@ -192,14 +191,6 @@ dependencies = [
  "gcc 0.3.19 (registry+https://github.com/rust-lang/crates.io-index)",
  "libc 0.2.2 (registry+https://github.com/rust-lang/crates.io-index)",
  "pkg-config 0.3.6 (registry+https://github.com/rust-lang/crates.io-index)",
-]
-
-[[package]]
-name = "liquid"
-version = "0.2.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-dependencies = [
- "regex 0.1.41 (registry+https://github.com/rust-lang/crates.io-index)",
 ]
 
 [[package]]

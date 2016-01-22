@@ -1,5 +1,4 @@
 use std::path::Path;
-use std::collections::HashMap;
 use regex::Regex;
 use util;
 
@@ -33,19 +32,8 @@ impl Post {
         }
     }
 
-    pub fn render(&self, data: HashMap<String, String>) -> String {
-        let mut local_data = data.clone();
-        local_data.insert("title".to_owned(), self.title());
-        let result = util::render_liquid(&self.content, local_data).expect("render failure");
-        util::render_markdown(&result)
-    }
-
     pub fn slug(&self) -> String {
         self.slug.clone()
-    }
-
-    pub fn title(&self) -> String {
-        self.title.clone()
     }
 }
 
@@ -60,12 +48,12 @@ fn constructs_post_from_filename() {
 #[test]
 fn reads_title_from_front_matter() {
     let post = Post::new(Path::new("fixtures/005/_posts/2015-10-26-001-merry-xmas.markdown"));
-    assert_eq!(post.title(), "wild merry xmas!".to_owned());
+    assert_eq!(post.title, "wild merry xmas!".to_owned());
 }
 
 #[test]
 fn title_is_taken_from_slug_if_missing() {
     let post = Post::new(Path::new("fixtures/005/_posts/2015-10-26-002-meh.markdown"));
-    assert_eq!(post.title(), "meh".to_owned());
+    assert_eq!(post.title, "meh".to_owned());
 }
 

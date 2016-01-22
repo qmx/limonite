@@ -2,7 +2,6 @@ use std::path::{Path,PathBuf};
 use std::fs::{self, File};
 use std::io::prelude::*;
 use yaml_rust::YamlLoader;
-use std::collections::HashMap;
 use handlebars::{Handlebars, Context};
 use util;
 use post::Post;
@@ -78,13 +77,13 @@ impl Site {
         for entry in walker.filter_entry(|e| !is_invalid(e)) {
             let entry = entry.unwrap();
             let relative_name = util::relative_from(entry.path(), &src_path).unwrap().to_str().unwrap().to_owned();
-            if (is_to_be_rendered(&entry)) {
+            if is_to_be_rendered(&entry) {
                 let mut content = String::new();
                 let mut f = File::open(entry.path()).ok().expect(&format!("can't open {}", relative_name));
                 let _ = f.read_to_string(&mut content);
-                handlebars.register_template_string(&relative_name, content);
+                let _ = handlebars.register_template_string(&relative_name, content);
                 files_to_render.push(relative_name);
-            } else if (is_dir(&entry)) {
+            } else if is_dir(&entry) {
                 dirs_to_create.push(relative_name);
             } else {
                 files_to_copy.push(relative_name);
@@ -137,7 +136,7 @@ impl Site {
             let target_name = file.split(".hbs").next().unwrap();
             let target = output_path.join(target_name);
             if let Ok(ref mut target_file) = File::create(target) {
-                self.handlebars.renderw(file, &Context::wraps(&self), target_file);
+                let _ = self.handlebars.renderw(file, &Context::wraps(&self), target_file);
             }
             println!("render {}", output_path.join(target_name).display());
         }
@@ -156,7 +155,7 @@ pub mod tests {
         let mut outdir = env::temp_dir();
         outdir.push("limonite");
         outdir.push(Uuid::new_v4().to_simple_string());
-        fs::create_dir_all(&outdir);
+        let _ = fs::create_dir_all(&outdir);
         outdir
     }
 

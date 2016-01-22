@@ -14,7 +14,6 @@ syntex = "0.26.0"
 
 [dependencies]
 clap = "1.5.5"
-liquid = "0.2.0"
 pulldown-cmark = "0.0.3"
 regex = "0.1.41"
 rust-crypto = "0.2.34"

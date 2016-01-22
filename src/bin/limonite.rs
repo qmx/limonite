@@ -1,10 +1,9 @@
 extern crate limonite;
 extern crate clap;
-use clap::{Arg, App};
+use clap::App;
 
 use limonite::site::Site;
 use limonite::VERSION;
-use std::env;
 use std::path::Path;
 
 fn main() {
