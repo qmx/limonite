@@ -6,6 +6,7 @@ pub struct Site {
     #[serde(skip_serializing)]
     handlebars: Handlebars,
     posts: Vec<Post>,
+    posts_reverse: Vec<Post>,
     #[serde(skip_serializing)]
     files_to_copy: Vec<String>,
     #[serde(skip_serializing)]

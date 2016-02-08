@@ -91,12 +91,18 @@ impl Site {
         }
 
         // Reverse post list
-        posts.reverse();
+        posts.sort_by(|ref a, ref b| {
+            a.fname().cmp(&b.fname())
+        });
+
+        let mut posts_reverse = posts.clone();
+        posts_reverse.reverse();
 
         Site {
             src_path: src_path.to_path_buf(),
             base_url: base_url,
             posts: posts,
+            posts_reverse: posts_reverse,
             handlebars: handlebars,
             files_to_render: files_to_render,
             files_to_copy: files_to_copy,
@@ -106,7 +112,7 @@ impl Site {
 
     pub fn generate(self, output_path: &Path) {
         for post in self.posts.iter() {
-            let dir = output_path.join("p").join(post.slug());
+            let dir = output_path.join(post.relative_url());
             let _ = fs::create_dir_all(&dir);
             let mut f = File::create(&dir.join("index.html")).unwrap();
             let output = self.handlebars.render("post", &post).ok().expect(&format!("failed to render post {:?}", f));

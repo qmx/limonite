@@ -1,8 +1,9 @@
-#[derive(Serialize, Debug)]
+#[derive(Serialize, Debug, Clone)]
 pub struct Post {
     title: String,
     slug: String,
     content: String,
     date: String,
-    seq: u8
+    seq: u8,
+    relative_url: String
 }

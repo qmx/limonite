@@ -28,19 +28,24 @@ impl Post {
             slug: slug.to_owned(),
             content: util::render_markdown(&content),
             date: date_str.to_owned(),
-            seq: seq
+            seq: seq,
+            relative_url: format!("p/{}", slug),
         }
     }
 
-    pub fn slug(&self) -> String {
-        self.slug.clone()
+    pub fn fname(&self) -> String {
+        format!("{}-{}-{}", self.date, self.seq, self.slug).to_owned()
+    }
+
+    pub fn relative_url(&self) -> String {
+        self.relative_url.clone()
     }
 }
 
 #[test]
 fn constructs_post_from_filename() {
     let post = Post::new(Path::new("fixtures/003/_posts/2015-10-26-001-merry-xmas.markdown"));
-    assert_eq!(post.slug(), "merry-xmas");
+    assert_eq!(post.slug, "merry-xmas");
     assert_eq!(post.date, "2015-10-26".to_owned());
     assert_eq!(post.seq, 1);
 }
