@@ -1,5 +1,5 @@
 Name:		limonite
-Version:	0.2.1
+Version:	0.2.2
 Release:	1%{?dist}
 Summary: yet another highly-opinionated blog and static site generator
 
