@@ -1,5 +1,6 @@
 use std::path::Path;
 use regex::Regex;
+use chrono::NaiveDate;
 use util;
 
 include!(concat!(env!("OUT_DIR"), "/post.rs"));
@@ -16,6 +17,9 @@ fn extract_data_from_filename(filename: &str) -> (&str, &str, u8) {
 impl Post {
 
     pub fn new(src: &Path) -> Post {
+        fn friendly_date(date: &str) -> String {
+            NaiveDate::parse_from_str(date, "%Y-%m-%d").unwrap().format("%B %d, %Y").to_string()
+        }
         let filename = src.file_stem().unwrap().to_str().unwrap();
         let (date_str, slug, seq) = extract_data_from_filename(filename);
         let (front_matter, content) = util::parse_front_matter_and_content(src).unwrap();
@@ -30,6 +34,7 @@ impl Post {
             date: date_str.to_owned(),
             seq: seq,
             relative_url: format!("p/{}", slug),
+            friendly_date: friendly_date(date_str),
         }
     }
 
@@ -48,6 +53,7 @@ fn constructs_post_from_filename() {
     assert_eq!(post.slug, "merry-xmas");
     assert_eq!(post.date, "2015-10-26".to_owned());
     assert_eq!(post.seq, 1);
+    assert_eq!(post.friendly_date, "October 26, 2015".to_owned())
 }
 
 #[test]

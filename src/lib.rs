@@ -1,3 +1,4 @@
+extern crate chrono;
 extern crate crypto;
 extern crate handlebars;
 extern crate pulldown_cmark;
