@@ -106,7 +106,7 @@ impl Site {
 
     pub fn generate(self, output_path: &Path) {
         for post in self.posts.iter() {
-            let dir = output_path.join(post.slug());
+            let dir = output_path.join("p").join(post.slug());
             let _ = fs::create_dir_all(&dir);
             let mut f = File::create(&dir.join("index.html")).unwrap();
             let output = self.handlebars.render("post", &post).ok().expect(&format!("failed to render post {:?}", f));
@@ -183,6 +183,6 @@ pub mod tests {
         let site = super::Site::new(Path::new("fixtures/canonical"));
         let outdir = get_temp_output_path();
         site.generate(&outdir);
-        assert!(compare_paths(Path::new("fixtures/canonical-output/merry-xmas/index.html"), &outdir.join("merry-xmas/index.html")));
+        assert!(compare_paths(Path::new("fixtures/canonical-output/merry-xmas/index.html"), &outdir.join("p/merry-xmas/index.html")));
     }
 }
