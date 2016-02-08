@@ -30,6 +30,13 @@ cp -p target/release/limonite %{buildroot}%{_bindir}/
 %files
 /usr/bin/limonite
 %changelog
+* Mon Feb 08 2016 Douglas Campos <qmx@qmx.me> 0.2.2-1
+- bump up version (qmx@qmx.me)
+- add friendly date (qmx@qmx.me)
+- sorting (qmx@qmx.me)
+- fix post sorting + nest url inside /p/ (qmx@qmx.me)
+- group posts inside p namespace (qmx@qmx.me)
+
 * Fri Jan 22 2016 Douglas Campos <qmx@qmx.me> 0.2.1-1
 - bump up version (qmx@qmx.me)
 - reversing the post list (qmx@qmx.me)
