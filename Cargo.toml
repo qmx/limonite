@@ -10,13 +10,13 @@ version = "0.2.2"
 [build-dependencies]
 git2 = "0.3"
 serde_codegen = "0.6.10"
-syntex = "0.26.0"
+syntex = "0.29.2"
 
 [dependencies]
 chrono = "0.2.19"
 clap = "1.5.5"
 pulldown-cmark = "0.0.3"
-regex = "0.1.41"
+regex = "0.1.53"
 rust-crypto = "0.2.34"
 serde = "0.6.10"
 serde_json = "0.6.0"
